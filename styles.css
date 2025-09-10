@@ -732,30 +732,48 @@ footer .social-links li a {
 	height: 2rem;
 }
 
+.herb {
+	background: #daff05;
+}
+.pink {
+	background: #05ffde;
+}
+.brightyellow {
+	background: #052bff;
+}
+.brightred {
+	background: #ff051e;
+}
+.violet {
+	background: #d608ff;
+}
+.lightgreen {
+   background: #08ff1c;
+}
 .purple {
 	background: #8142FF;
 }
-
+.cyan {
+	background: #ff9020;
+}
 .blue {
 	background: #36A2EB;
 }
-
 .red {
 	background: #ff4069;
 }
-
 .orange {
-	background: #ff9020;
+	background: #05ff93;
 }
-
 .yellow {
 	background: #ffcd56;
 }
-
 .green {
-	background: #4BC0C0;
+	background: #ff7105;
 }
-
+.white {
+	background: white;
+}
 @media (max-width: 680px) {
 	.chart-group {
 		display: flex;

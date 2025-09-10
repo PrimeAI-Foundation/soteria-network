@@ -42,7 +42,6 @@
     </section>
 <!---------------------------------------- TOKENOMICS -->
 	<section>
-		
 		<div class="chart-group">
 			<div class="canvas-container">
 				<canvas class="chart"></canvas>
@@ -50,27 +49,59 @@
 			<div class="chart-legends">
 				<div class="chart-legend">
 					<div class="legend-color blue"></div>
-					<p>34% Miners</p>
+					<p>30% Miners</p>
 				</div>
 				<div class="chart-legend">
 					<div class="legend-color red"></div>
-					<p>10% Foundation Reserve</p>
+					<p>10% Foundation Reserve Fund</p>
 				</div>
 				<div class="chart-legend">
 					<div class="legend-color orange"></div>
-					<p>15% Exchanges</p>
+					<p>9% Exchanges</p>
 				</div>
 				<div class="chart-legend">
 					<div class="legend-color yellow"></div>
-					<p>10% Marketing </p>
+					<p>10% Marketing Fund</p>
 				</div>
 				<div class="chart-legend">
 					<div class="legend-color green"></div>
-					<p>6% Team</p>
+					<p>6% Team Fund</p>
+				</div>
+				<div class="chart-legend">
+					<div class="legend-color cyan"></div>
+					<p>2% Compensation Fund</p>
+				</div>
+				<div class="chart-legend">
+					<div class="legend-color violet"></div>
+					<p>5% Backers Fund</p>
 				</div>
 				<div class="chart-legend">
 					<div class="legend-color purple"></div>
-					<p>25% Community</p>
+					<p>2% Community Fund</p>
+				</div>
+				<div class="chart-legend">
+					<div class="legend-color lightgreen"></div>
+					<p>15% Ecosystem Growth Fund</p>
+				</div>
+				<div class="chart-legend">
+					<div class="legend-color brightyellow"></div>
+					<p>2% Airdrop Fund</p>
+				</div>
+				<div class="chart-legend">
+					<div class="legend-color herb"></div>
+					<p>2% Contributors Fund</p>
+				</div>
+				<div class="chart-legend">
+					<div class="legend-color pink"></div>
+					<p>2% Node Operators Pool Fund</p>
+				</div>
+				<div class="chart-legend">
+					<div class="legend-color brightred"></div>
+					<p>4% Staking Pool</p>
+				</div>
+				<div class="chart-legend">
+					<div class="legend-color white"></div>
+					<p>1% Burn Pool</p>
 				</div>
 			</div>
 		</div>
@@ -133,31 +164,60 @@
    <p class="rights">© 2025 Soteria Network - All rights reserved.</p>
 <script>
 const chartData = {
-	labels: ['Investors', 'Development', 'Exchanges', 'Marketing', 'Team', 'Community'],
-	data: [34, 10, 15, 10, 6, 25],
+    labels: [
+        'Miners', 
+        'Foundation Reserve', 
+        'Exchanges', 
+        'Marketing', 
+        'Team', 
+        'Compensation', 
+        'Backers', 
+        'Community', 
+        'Ecosystem Growth', 
+        'Contributors', 
+        'Airdrop',
+        'Node Operators Pool',
+        'Staking Pool'
+    ],
+    data: [30, 10, 9, 10, 6, 2, 5, 2, 15, 2, 2, 2, 4, 1],
+    backgroundColor: [
+        '#36A2EB', // Miners
+        '#ff4069', // Foundation Reserve
+        '#05ff93', // Exchanges
+        '#ffcd56', // Marketing
+        '#ff7105', // Team
+        '#ff9020', // Compensation
+        '#d608ff', // Backers
+        '#8142FF', // Community
+        '#08ff1c', // Ecosystem Growth
+        '#daff05', // Contributors
+        '#052bff', // Airdrop
+        '#05ffde', // Node Operators
+        '#ff051e',  // Staking Pool
+        'white' // burn
+    ]
 };
 
 const chart = document.querySelector('.chart');
 
 new Chart(chart, {
-	type: 'doughnut',
-	data: {
-		labels: chartData.labels,
-		datasets: [{
-			data: chartData.data
-		}]
-	},
-	options: {
-		maintainAspectRatio: false,
-		plugins: {
-			legend: {
-				display: false,
-				
-			}
-			
-		}
-	}
-})   
+    type: 'doughnut',
+    data: {
+        labels: chartData.labels,
+        datasets: [{
+            data: chartData.data,
+            backgroundColor: chartData.backgroundColor // Set the background colors
+        }]
+    },
+    options: {
+        maintainAspectRatio: true,
+        plugins: {
+            legend: {
+                display: false,
+            }
+        }
+    }
+});
 </script>
 <script>
 //GOOGLE TRANSLATE

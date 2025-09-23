@@ -49,7 +49,7 @@
 			<div class="chart-legends">
 				<div class="chart-legend">
 					<div class="legend-color blue"></div>
-					<p>32% Miners</p>
+					<p>30% Miners</p>
 				</div>
 				<div class="chart-legend">
 					<div class="legend-color red"></div>
@@ -65,7 +65,11 @@
 				</div>
 				<div class="chart-legend">
 					<div class="legend-color green"></div>
-					<p>7% Team Fund</p>
+					<p>8% Team Fund</p>
+				</div>
+				<div class="chart-legend">
+					<div class="legend-color lightgreen"></div>
+					<p>2% Ambassador Program Fund</p>
 				</div>
 				<div class="chart-legend">
 					<div class="legend-color cyan"></div>
@@ -93,7 +97,7 @@
 				</div>
 				<div class="chart-legend">
 					<div class="legend-color pink"></div>
-					<p>3% Node Operators Pool Fund</p>
+					<p>2% Node Operators Pool Fund</p>
 				</div>
 				<div class="chart-legend">
 					<div class="legend-color brightred"></div>
@@ -112,6 +116,9 @@
         <div class="social-icons">
             <a href="https://discord.com/invite/" target="_blank" class="social-icon">
                 <i class="fab fa-discord fa-2x"></i>
+            </a>
+			<a href="https://bsky.app" target="_blank" class="social-icon">
+                <i class="fab fa-bsky fa-2x"></i>
             </a>
             <a href="https://twitter.com" target="_blank" class="social-icon">
                 <i class="fab fa-twitter fa-2x"></i>
@@ -179,13 +186,14 @@ const chartData = {
         'Node Operators Pool',
         'Staking Pool'
     ],
-    data: [32, 10, 10, 10, 7, 2, 5, 2, 15, 2, 2, 3, 4, 2],
+    data: [32, 10, 10, 10, 8, 2, 2, 5, 2, 15, 2, 2, 2, 4, 2],
     backgroundColor: [
         '#36A2EB', // Miners
         '#ff4069', // Foundation Reserve
         '#05ff93', // Exchanges
         '#ffcd56', // Marketing
         '#ff7105', // Team
+		'#84fa05', // Ambassador
         '#ff9020', // Compensation
         '#d608ff', // Backers
         '#8142FF', // Community

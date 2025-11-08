@@ -72,6 +72,39 @@
       font-size: 0.9em;
       color: #888;
     }
+     .note {
+      background: #1e1e2f;
+      padding: 10px;
+      border-left: 4px solid #ffd700;
+      margin-bottom: 20px;
+      font-size: 0.95em;
+    }    
+    
+    .address-block {
+      background: #1a1a2a;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }    
+     .address-info {
+      flex: 1;
+      margin-right: 10px;
+    }
+    .copy-btn {
+      background: #ffd700;
+      color: #0f0f1a;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .copy-btn:hover {
+      background: #e6c200;
+    }          
   </style>
     
     
@@ -176,7 +209,13 @@
       <li><b>**Accepted cryptocurrencies**: BTC, ETH, USDT (TRC20, ERC20, BEP20), SOL, and others</b></li>
     </ul>
   </section>
-
+  <section>
+  <h2>📥 Contribution Addresses</h2>
+  <div class="note">
+    ⚠️ <strong>Note:</strong> Some addresses (like ETH, USDT, and USDC) are the same across Ethereum, Base, Optimism, and BSC networks. Please make sure to select the correct network when sending.
+  </div>
+  <div id="address-list"></div>
+  </section>
   <section>
     <h2><b>🛡 Why Monthly Distribution?</b></h2>
     <ul>
@@ -280,7 +319,51 @@
     </section>
     <p class="rights">Disclaimer: Always do your own research. Nothing here is a financial advice.</p>
     <p class="rights">© 2025 Soteria Network - All rights reserved.</p>
-    
+      <script>
+    const addresses = [
+      { address: "bc1qkgw84hausumxunjsmfcwlzdndh07ghh6qk58du", label: "BTC" },
+      { address: "0x9faD689248eb635E1BcD1D0588b66f304a52Bb8C", label: "ETH - Ethereum Network" },
+      { address: "0x9faD689248eb635E1BcD1D0588b66f304a52Bb8C", label: "ETH - Base Network" },
+      { address: "0x9faD689248eb635E1BcD1D0588b66f304a52Bb8C", label: "ETH - Optimism Network" },
+      { address: "0x9faD689248eb635E1BcD1D0588b66f304a52Bb8C", label: "USDT - Ethereum Network" },
+      { address: "0x9faD689248eb635E1BcD1D0588b66f304a52Bb8C", label: "USDT - BSC Network" },
+      { address: "0x9faD689248eb635E1BcD1D0588b66f304a52Bb8C", label: "BNB - BSC Network" },
+      { address: "6DAbnUaAtRci1cTwTW6W2THMghEuMzZboVpsepPvXgaD", label: "SOL" },
+      { address: "6DAbnUaAtRci1cTwTW6W2THMghEuMzZboVpsepPvXgaD", label: "USDT - SOL Network" },
+      { address: "6DAbnUaAtRci1cTwTW6W2THMghEuMzZboVpsepPvXgaD", label: "USDC - SOL Network" },
+      { address: "TETYt14f3zJrUVDASKyAPEJKJFSTbyoQc4", label: "USDT - Tron Network (TRX)" },
+      { address: "TETYt14f3zJrUVDASKyAPEJKJFSTbyoQc4", label: "TRX" },
+      { address: "0x9faD689248eb635E1BcD1D0588b66f304a52Bb8C", label: "USDC - Ethereum Network" },
+      { address: "0x9faD689248eb635E1BcD1D0588b66f304a52Bb8C", label: "USDC - BSC Network" },
+      { address: "DTrK2KobaiY7UUwxDG9XnJR3KksgTf5dcE", label: "Dogecoin" },
+      { address: "LLKZQBCQMNWExs9Why4JMZj35wDC1sH29e", label: "LTC - Litecoin Network" },
+      { address: "RMs1ox9YpevMFmcJobs3ZVjdfb7ttziMh1", label: "RVN" }
+    ];
+
+    const container = document.getElementById("address-list");
+
+    addresses.forEach(({ address, label }) => {
+      const block = document.createElement("div");
+      block.className = "address-block";
+
+      const info = document.createElement("div");
+      info.className = "address-info";
+      info.innerHTML = `<strong>${label}</strong><br>${address}`;
+
+      const button = document.createElement("button");
+      button.className = "copy-btn";
+      button.textContent = "Copy";
+      button.onclick = () => {
+        navigator.clipboard.writeText(address);
+        button.textContent = "Copied!";
+        setTimeout(() => (button.textContent = "Copy"), 2000);
+      };
+
+      block.appendChild(info);
+      block.appendChild(button);
+      container.appendChild(block);
+    });
+  </script>  
     <script>
 //GOOGLE TRANSLATE
     window.gtranslateSettings = {

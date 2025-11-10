@@ -104,7 +104,36 @@
     }
     .copy-btn:hover {
       background: #e6c200;
-    }          
+    }     
+
+       .container {
+      max-width: 600px;
+      margin: auto;
+      background: #1a1a1a;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px #00ffcc;
+    }
+    h2 {
+      color: #00ffcc;
+      margin-bottom: 10px;
+    }
+    .timer, .multiplier, .next {
+      font-size: 1.4em;
+      margin: 15px 0;
+    }
+    .multiplier {
+      color: #ffcc00;
+      font-size: 2em;
+    }
+    .next {
+      color: #00ffcc;
+    }
+    .note1 {
+      font-size: 0.9em;
+      color: #999;
+      margin-top: 10px;
+    }         
   </style>
     
     
@@ -153,10 +182,19 @@
     <p><b>Early Backer Campaign Ends November 26 — Listing on November 28</b></p>
     
      <p><b>Our mission is to start to offer innovative blockchain solutions and tokenization services to companies, corporations, and individuals. Share the profits with our investors, backers, community, sponsors, and supporters</b></p>
-  
-  
-      </header>  
-
+        </header>  
+  <section>
+  <div class="container">
+    <h2>💡 How It Works</h2>
+    <p>The reward multiplier decreases daily over the 17-day campaign.</p>
+    <div class="timer" id="countdown"></div>
+    <div class="multiplier" id="multiplier"></div>
+    <div class="next" id="nextDrop"></div>
+    <div class="note1">Rewards range from 3x to 1x based on when you contribute.</div>
+  </div>
+  </section>
+    
+<!--
   <section>
     <h2>💡 How It Works</h2>
     <ul>
@@ -183,7 +221,7 @@
       <li><b>**Sending addresses 1000 and above** will receive **1x** their contribution in SOTER coins. </b></li>                                        
     </ul>
   </section>
-
+ -->
   <section>
     <h2><b> 💸 Distribution Instructions & Timeline</b></h2>
     <ul>
@@ -364,6 +402,55 @@
       container.appendChild(block);
     });
   </script>  
+      <script>
+    const startDate = new Date("2025-11-09T00:00:00Z");
+    const totalDays = 17;
+    const maxMultiplier = 3.0;
+    const minMultiplier = 1.0;
+    const step = (maxMultiplier - minMultiplier) / (totalDays - 1);
+    const oneDayMs = 1000 * 60 * 60 * 24;
+
+    function updateDisplay() {
+      const now = new Date();
+      const elapsedMs = now - startDate;
+
+      if (elapsedMs < 0) {
+        document.getElementById("countdown").innerHTML = "🚀 Campaign starts soon.";
+        document.getElementById("multiplier").innerHTML = `Upcoming reward: <strong>${maxMultiplier.toFixed(3)}x</strong>`;
+        document.getElementById("nextDrop").innerHTML = "";
+        return;
+      }
+
+      // Clamp to Day 0 if less than 24 hours have passed
+      const elapsedDays = elapsedMs < oneDayMs ? 0 : Math.floor(elapsedMs / oneDayMs);
+      const currentDay = Math.min(elapsedDays, totalDays - 1);
+      const currentMultiplier = (maxMultiplier - (currentDay * step)).toFixed(3);
+      const nextMultiplier = (maxMultiplier - ((currentDay + 1) * step)).toFixed(3);
+
+      const nextDropTime = new Date(startDate.getTime() + (currentDay + 1) * oneDayMs);
+      const timeLeft = nextDropTime - now;
+
+      if (timeLeft > 0 && currentDay < totalDays - 1) {
+        const hours = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((timeLeft / (1000 * 60)) % 60);
+        const seconds = Math.floor((timeLeft / 1000) % 60);
+        document.getElementById("countdown").innerHTML =
+          `⏳ Time until next drop: ${hours}h ${minutes}m ${seconds}s`;
+        document.getElementById("nextDrop").innerHTML =
+          `🔜 Next reward: <strong>${nextMultiplier}x</strong>`;
+      } else {
+        document.getElementById("countdown").innerHTML = "✅ Campaign ended.";
+        document.getElementById("nextDrop").innerHTML =
+          `Final reward reached: <strong>${minMultiplier.toFixed(3)}x</strong>`;
+      }
+
+      document.getElementById("multiplier").innerHTML =
+        `🔥 Current reward: <strong>${currentMultiplier}x</strong>`;
+    }
+
+    updateDisplay();
+    setInterval(updateDisplay, 1000);
+  </script>
     <script>
 //GOOGLE TRANSLATE
     window.gtranslateSettings = {

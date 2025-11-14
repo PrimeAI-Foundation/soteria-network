@@ -847,6 +847,24 @@ footer .social-links li a {
   padding: 10px 12px;
   box-sizing: border-box;
 }
+.whitepaper-web details {
+  margin-bottom: 20px;
+  background-color: #2a2a2a;
+  padding: 15px;
+  border-radius: 8px;
+  color: #f0f0f0;
+}
+
+.whitepaper-web summary {
+  cursor: pointer;
+  font-size: 18px;
+  color: #00bfff;
+}
+
+.whitepaper-web summary:hover {
+  color: #1e90ff;
+}
+
 /* Web Section */
 .web {
     text-align: center;

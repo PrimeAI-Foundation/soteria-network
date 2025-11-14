@@ -847,3 +847,23 @@ footer .social-links li a {
   padding: 10px 12px;
   box-sizing: border-box;
 }
+/* Web Section */
+.web {
+    text-align: center;
+    padding: 5px 5px;
+    background: linear-gradient(120deg, #ff9900, #181818);
+    color: #ffffff;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+.web h1 {
+    font-size: 2.4em;
+    margin-bottom: 20px;
+    animation: slideInDown 1s ease-in-out;
+}
+
+.web p {
+    font-size: 1.4em;
+    margin-bottom: 15px;
+    animation: slideInUp 1s ease-in-out;
+}

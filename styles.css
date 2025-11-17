@@ -912,11 +912,17 @@ footer .social-links li a {
 
 .features {
   display: flex;
-  flex-direction: column;
+  flex-direction: row; /* Change from column to row */
+  flex-wrap: wrap;     /* Allows wrapping on smaller screens */
+   justify-content: center;
   gap: 30px;
   margin-bottom: 40px;
 }
-
+.feature {
+  flex: 1 1 250px; /* Allows flexible width with a minimum size */
+  max-width: 280px;
+  text-align: left;
+}
 .feature h2 {
   font-size: 1.6rem;
   margin-bottom: 5px;
@@ -939,3 +945,4 @@ footer .social-links li a {
   color: #d0d0d0;
   text-align: left;
 }
+

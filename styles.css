@@ -204,7 +204,7 @@ header .logo a {
 }
 
 /* Features Section */
-.features {
+.featuresX {
     text-align: center;
     padding: 50px 20px;
     background: linear-gradient(120deg, #121212, #181818);
@@ -218,7 +218,7 @@ header .logo a {
     font-weight: bold;
 }
 
-.features-grid {
+.featuresX-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;

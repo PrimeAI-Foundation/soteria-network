@@ -203,7 +203,7 @@ header .logo a {
     color: #121212;
 }
 
-/* Features Section */
+/* FeaturesX Section */
 .featuresX {
     text-align: center;
     padding: 50px 20px;
@@ -211,7 +211,7 @@ header .logo a {
     color: #fff;
 }
 
-.features h2 {
+.featuresX h2 {
     font-size: 2.5em;
     margin-bottom: 30px;
     color: #ff9900;

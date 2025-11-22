@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Soteria Community & Programs</title>
+  <style>
+    :root {
+      --bg-color: #f5f5f5;
+      --text-color: #222;
+      --card-bg: #ffffff;
+      --card-text: #333;
+      --card-subtext: #666;
+      --card-hover: #f0f8ff;
+      --card-shadow: rgba(0, 0, 0, 0.1);
+      --accent: #0077cc;
+    }
+    body.dark {
+      --bg-color: #121212;
+      --text-color: #f0f0f0;
+      --card-bg: #1e1e1e;
+      --card-text: #f9f9f9;
+      --card-subtext: #bbbbbb;
+      --card-hover: #1a1a1a;
+      --card-shadow: rgba(255, 255, 255, 0.05);
+      --accent: #66ccff;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: var(--bg-color);
+      color: var(--text-color);
+      transition: background 0.5s ease, color 0.5s ease;
+      scroll-behavior: smooth;
+    }
+    .layout { display: flex; }
+    .sidebar {
+      width: 220px;
+      background: var(--card-bg);
+      border-right: 1px solid #ccc;
+      padding: 1rem;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      overflow-y: auto;
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+    .sidebar-toggle {
+      display: none;
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      background: var(--card-bg);
+      color: var(--text-color);
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 0.5rem 1rem;
+      font-size: 1.2rem;
+      cursor: pointer;
+      z-index: 1100;
+    }
+    .theme-toggle {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      padding: 0.5rem 1rem;
+      background: var(--card-bg);
+      color: var(--text-color);
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      z-index: 1100;
+    }
+    .sidebar .category > button {
+      background: none;
+      border: none;
+      font-weight: bold;
+      color: var(--text-color);
+      cursor: pointer;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      width: 100%;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .sidebar .category .arrow { transition: transform 0.3s ease; }
+    .sidebar .category.open .arrow { transform: rotate(90deg); }
+    .sidebar .submenu {
+      margin-left: 1rem;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    .sidebar .submenu.open { max-height: 500px; }
+    .sidebar .submenu a {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .sidebar .submenu a.active { color: var(--accent); }
+    main { flex: 1; padding: 2rem; }
+    h1 { text-align: center; margin-bottom: 2rem; }
+    h2 { margin-top: 3rem; margin-bottom: 1rem; font-size: 1.5rem; border-bottom: 2px solid #ddd; padding-bottom: 0.3rem; }
+    @media (max-width: 768px) {
+      .layout { flex-direction: column; }
+      .sidebar {
+        position: fixed;
+        top: 0; left: 0;
+        height: 100%;
+        transform: translateX(-100%);
+      }
+      .sidebar.open { transform: translateX(0); }
+      .sidebar-toggle { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+  <button class="theme-toggle" id="themeToggle">🌙</button>
+
+  <div class="layout">
+    <nav class="sidebar" id="sidebar">
+      <div class="category" id="programs-category">
+        <button onclick="toggleSubmenu('programs-submenu','programs-category')">
+          <span>🌐 Community & Programs</span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="submenu" id="programs-submenu">
+          <a href="#membership">👥 Membership</a>
+          <a href="#ambassador">🌟 Ambassador Program</a>
+          <a href="#jobs">💼 Jobs</a>
+          <a href="#grants">🎓 Grants</a>
+          <a href="#donation">💖 Donation</a>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <h1>🌐 Soteria Community & Programs</h1>
+
+      <h2 id="membership">👥 Membership</h2>
+      <p>Tiers, benefits, and how to join.</p>
+
+      <h2 id="ambassador">🌟 Ambassador Program</h2>
+      <p>Program for outreach and community growth.</p>
+
+      <h2 id="jobs">💼 Jobs</h2>
+      <p>Open roles and contributor opportunities.</p>
+
+      <h2 id="grants">🎓 Grants</h2>
+      <p>Funding opportunities for builders.</p>
+
+      <h2 id="donation">💖 Donation</h2>
+      <p>Support the projects and ecosystem.</p>
+    </main>
+  </div>
+
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const sidebarLinks = document.querySelectorAll('.sidebar .submenu a');
+    const toggleButton = document.getElementById('themeToggle');
+
+    function toggleSidebar() {
+      sidebar.classList.toggle('open');
+    }
+
+    // Dark mode toggle
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark');
+      toggleButton.textContent = '🌞';
+    } else {
+      toggleButton.textContent = '🌙';
+    }
+
+    toggleButton.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      toggleButton.textContent = isDark ? '🌞' : '🌙';
+    });
+
+    // Auto-close sidebar on mobile
+    sidebarLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+          sidebar.classList.remove('open');
+        }
+      });
+    });
+
+    // Scrollspy
+    const sections = document.querySelectorAll('h2[id]');
+    const navLinks = document.querySelectorAll('.sidebar .submenu a');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        const id = entry.target.getAttribute('id');
+        const link = Array.from(navLinks).find(l => l.getAttribute('href') === `#${id}`);
+        if (entry.isIntersecting && link) {
+          navLinks.forEach(l => l.classList.remove('active'));
+          link.classList.add('active');
+        }
+      });
+    }, {
+      rootMargin: '-40% 0px -50% 0px',
+      threshold: 0
+    });
+
+    sections.forEach(section => observer.observe(section));
+
+    // Submenu toggle with arrow animation and localStorage
+    function toggleSubmenu(submenuId, categoryId) {
+      const submenu = document.getElementById(submenuId);
+      const category = document.getElementById(categoryId);
+      const isOpen = submenu.classList.toggle('open');
+      category.classList.toggle('open', isOpen);
+
+      // Save state
+      const state = JSON.parse(localStorage.getItem('submenuState') || '{}');
+      state[submenuId] = isOpen;
+      localStorage.setItem('submenuState', JSON.stringify(state));
+    }
+
+    // Load submenu state from localStorage
+    window.addEventListener('DOMContentLoaded', () => {
+      const state = JSON.parse(localStorage.getItem('submenuState') || '{}');
+      Object.keys(state).forEach(submenuId => {
+        const submenu = document.getElementById(submenuId);
+        const categoryId = submenuId.replace('-submenu', '-category');
+        const category = document.getElementById(categoryId);
+        if (submenu && state[submenuId]) {
+          submenu.classList.add('open');
+          category.classList.add('open');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
+

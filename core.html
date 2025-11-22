@@ -112,12 +112,20 @@
     h2 { margin-top: 3rem; margin-bottom: 1rem; font-size: 1.5rem; border-bottom: 2px solid #ddd; padding-bottom: 0.3rem; }
     .download-btn {
       display: inline-block;
-      margin: 0.5rem 0;
-      padding: 0.5rem 1rem;
+      padding: 0.6rem 1.2rem;
       background: var(--accent);
       color: #fff;
       text-decoration: none;
       border-radius: 5px;
+      min-width: 140px;
+      text-align: center;
+      margin: 0.3rem;
+    }
+    .download-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
     }
     @media (max-width: 768px) {
       .layout { flex-direction: column; }
@@ -129,6 +137,7 @@
       }
       .sidebar.open { transform: translateX(0); }
       .sidebar-toggle { display: block; }
+      .download-row { flex-direction: column; }
     }
   </style>
 </head>
@@ -173,14 +182,22 @@
 
       <h2 id="wallets">👛 Wallets</h2>
       <p>Download wallets for your operating system:</p>
-      <a href="wallet-linux.zip" class="download-btn">Linux Wallet</a><br>
-      <a href="wallet-windows.zip" class="download-btn">Windows Wallet</a><br>
-      <a href="wallet-macos.zip" class="download-btn">macOS Wallet</a>
+      <div class="download-row">
+        <a href="wallet-linux.zip" class="download-btn">Linux</a>
+        <a href="wallet-windows.zip" class="download-btn">Windows</a>
+        <a href="wallet-macos.zip" class="download-btn">macOS</a>
+        <a href="wallet-aarch64.zip" class="download-btn">ARM64</a>
+        <a href="wallet-armv7.zip" class="download-btn">ARM32</a>
+      </div>
 
       <h2 id="miner">⛏️ Miner</h2>
       <p>Download mining software for your operating system:</p>
-      <a href="miner-linux.zip" class="download-btn">Linux Miner</a><br>
-      <a href="miner-windows.zip" class="download-btn">Windows Miner</a>
+      <div class="download-row">
+        <a href="miner-linux.zip" class="download-btn">Linux</a>
+        <a href="miner-windows.zip" class="download-btn">Windows</a>
+        <a href="miner-aarch64.zip" class="download-btn">ARM64</a>
+        <a href="miner-armv7.zip" class="download-btn">ARM32</a>
+      </div>
     </main>
   </div>
 
@@ -265,3 +282,4 @@
 
 </body>
 </html>
+

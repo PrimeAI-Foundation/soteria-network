@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ecosystem</title>
+      <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #f5f5f5;
+      --text-color: #222;
+      --card-bg: #ffffff;
+      --card-text: #333;
+      --card-subtext: #666;
+      --card-hover: #f0f8ff;
+      --card-shadow: rgba(0, 0, 0, 0.1);
+      --accent: #0077cc;
+    }
+
+    body.dark {
+      --bg-color: #121212;
+      --text-color: #f0f0f0;
+      --card-bg: #1e1e1e;
+      --card-text: #f9f9f9;
+      --card-subtext: #bbbbbb;
+      --card-hover: #1a1a1a;
+      --card-shadow: rgba(255, 255, 255, 0.05);
+      --accent: #66ccff;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: var(--bg-color);
+      color: var(--text-color);
+      transition: background 0.5s ease, color 0.5s ease;
+      scroll-behavior: smooth;
+    }
+
+    .layout {
+      display: flex;
+    }
+
+    .sidebar {
+      width: 220px;
+      background: var(--card-bg);
+      border-right: 1px solid #ccc;
+      padding: 1rem;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      overflow-y: auto;
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+
+    .sidebar-toggle {
+      display: none;
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      background: var(--card-bg);
+      color: var(--text-color);
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 0.5rem 1rem;
+      font-size: 1.2rem;
+      cursor: pointer;
+      z-index: 1100;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      padding: 0.5rem 1rem;
+      background: var(--card-bg);
+      color: var(--text-color);
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      z-index: 1100;
+    }
+
+    .sidebar .category {
+      margin-bottom: 1rem;
+    }
+
+    .sidebar .category > button {
+      background: none;
+      border: none;
+      font-weight: bold;
+      color: var(--text-color);
+      cursor: pointer;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      width: 100%;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sidebar .category .arrow {
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar .category.open .arrow {
+      transform: rotate(90deg);
+    }
+
+    .sidebar .submenu {
+      margin-left: 1rem;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .sidebar .submenu.open {
+      max-height: 500px;
+    }
+
+    .sidebar .submenu a {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .sidebar .submenu a.active {
+      color: var(--accent);
+    }
+
+    .sidebar .submenu a span.icon {
+      font-size: 1rem;
+    }
+
+    main {
+      flex: 1;
+      padding: 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    h2 {
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      color: var(--text-color);
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 0.3rem;
+    }
+
+    .ecosystem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .ecosystem-card {
+      background: var(--card-bg);
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px var(--card-shadow);
+      transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .ecosystem-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      background: var(--card-hover);
+      box-shadow: 0 4px 12px var(--card-shadow);
+    }
+
+    .ecosystem-card h3 {
+      margin-top: 0;
+      font-size: 1.1rem;
+      color: var(--card-text);
+    }
+
+    .ecosystem-card p {
+      font-size: 0.95rem;
+      color: var(--card-subtext);
+    }
+
+    @media (max-width: 768px) {
+      .layout {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        transform: translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .sidebar-toggle {
+        display: block;
+      }
+
+      main {
+        padding: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="index.html">Soteria Network</a>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="tokenomics.html">Tokenomics</a></li>
+                <li><a href="roadmap.html">Roadmap</a></li>
+                <li><a href="wallets.html" class="active">Ecosystem</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="whitepaper.html">Whitepaper</a></li>
+                <li><a href="r&d.html">R&D</a></li>
+                <li><a href="crowdfunding.html">Crowdfunding</a></li>
+                <li><a href="https://explorer.soteria-network.site/" target="_blank">Explorer</a></li>
+                <div class="gtranslate-wrapper">
+                <div class="gtranslate_wrapper"></div>
+              </div> 
+            </ul>
+        </nav>
+    </header>
+
+
+  <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+  <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
+
+  <div class="layout">
+    <nav class="sidebar" id="sidebar">
+      <div class="category" id="core-category">
+        <button onclick="toggleSubmenu('core-submenu','core-category')">
+          <span>⚙️ Core Infrastructure</span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="submenu" id="core-submenu">
+
+          <a href="core.html#wiki" target="_blank"><span class="icon">📘</span>Mining Wiki</a>
+          <a href="core.html#pools" target="_blank"><span class="icon">🏊</span>Pools</a>
+          <a href="core.html#wallets" target="_blank"><span class="icon">👛</span>Wallets</a>
+          <a href="core.html#miner" target="_blank"><span class="icon">⛏️</span>Miner</a>
+          <a href="https://explorer.soteria-network.site/" target="_blank"><span class="icon">🔍</span>Explorer</a>
+          <a href="https://explorer.soteria-network.site/" target="_blank"><span class="icon">🏦</span>Locked Fund</a>
+          <a href="https://explorer.soteria-network.site/" target="_blank"><span class="icon">🔥</span>Burned Fund</a>
+
+        </div>
+      </div>
+
+      <div class="category" id="finance-category">
+        <button onclick="toggleSubmenu('finance-submenu','finance-category')">
+          <span>💰 Finance & Utility</span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="submenu" id="finance-submenu">
+          <a href="finance.html#exchanges" target="_blank"><span class="icon">💱</span>Exchanges</a>
+          <a href="finance.html#swap" target="_blank"><span class="icon">🔄</span>Swap</a>
+          <a href="finance.html#presale" target="_blank"><span class="icon">🪙</span>Presale</a>
+          <a href="finance.html#data" target="_blank"><span class="icon">📊</span>Market Data</a>
+          <a href="finance.html#stake" target="_blank"><span class="icon"> 🔒</span>Fixed Staking</a>
+          <a href="finance.html#premium" target="_blank"><span class="icon">💎</span>Premium Mining</a>
+          <a href="finance.html#bridge" target="_blank"><span class="icon">🌉</span>Bridge</a>
+          <a href="finance.html#lend" target="_blank"><span class="icon">💳</span>Crypto Lending</a>
+          <a href="finance.html#list" target="_blank"><span class="icon">✅</span>Whitelist</a>
+          <a href="finance.html#otc" target="_blank"><span class="icon">🏷️</span>OTC Market</a>
+          <a href="finance.html#cloud" target="_blank"><span class="icon">☁️</span>Cloud Mining</a>
+          <a href="finance.html#flexible" target="_blank"><span class="icon">🔓</span>Flexible Staking</a>
+          <a href="finance.html#dual" target="_blank"><span class="icon">🔀</span>Dual Earn</a>
+          <a href="finance.html#shark" target="_blank"><span class="icon">🦈</span>Shark Fin</a>
+          <a href="finance.html#auto" target="_blank"><span class="icon">🔁</span>Autocallable</a>
+          <a href="finance.html#collar" target="_blank"><span class="icon">🛡️</span>Collar</a>
+        </div>
+      </div>
+
+      <div class="category" id="community-category">
+        <button onclick="toggleSubmenu('community-submenu','community-category')">
+          <span>🧩 Community & Programs</span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="submenu" id="community-submenu">
+          <a href="programs.html#membership" target="_blank"><span class="icon">👥</span>Membership</a>
+          <a href="programs.html#ambassador" target="_blank"><span class="icon">🌟</span>Ambassador Program</a>
+          <a href="programs.html#jobs" target="_blank"><span class="icon">💼</span>Jobs</a>
+          <a href="programs.html#grants" target="_blank"><span class="icon">🎓</span>Grants</a>
+          <a href="programs.html#donation" target="_blank"><span class="icon">💖</span>Donation</a>
+        </div>
+      </div>
+
+      <div class="category" id="governance-category">
+        <button onclick="toggleSubmenu('governance-submenu','governance-category')">
+          <span>🧠 Governance & Development</span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="submenu" id="governance-submenu">
+          <a href="development.html#governance" target="_blank"><span class="icon">🗳️</span>Governance</a>
+          <a href="development.html#developer" target="_blank"><span class="icon">🧑‍💻</span>Developer</a>
+          <a href="development.html#testnet" target="_blank"><span class="icon">🧪</span>Testnet</a>
+         <a href="development.html#products" target="_blank"><span class="icon">🛠️</span>Products</a>
+          <a href="development.html#experiments" target="_blank"><span class="icon">🧬</span>Experiments</a>
+          <a href="development.html#os" target="_blank"><span class="icon">💻</span>OS</a>
+          <a href="development.html#docs" target="_blank"><span class="icon">📚</span>Docs</a>
+        </div>
+      </div>
+
+      <div class="category" id="products-category">
+        <button onclick="toggleSubmenu('products-submenu','products-category')">
+          <span>🚀 Products & Innovation</span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="submenu" id="products-submenu">
+          <a href="innovation.html#spark" target="_blank"><span class="icon">⚡</span>Spark</a>
+          <a href="innovation.html#points" target="_blank"><span class="icon">🎯</span>Points</a>
+          <a href="innovation.html#lottery" target="_blank"><span class="icon">🎟️</span>Crypto Lottery</a>
+          <a href="innovation.html#sief" target="_blank"><span class="icon">⚙️</span>SIEF</a>          
+          <a href="innovation.html#dapps" target="_blank"><span class="icon">🧩</span>dApps</a>
+          <a href="innovation.html#cex" target="_blank"><span class="icon">💱</span>CEX</a>
+          <a href="innovation.html#dex" target="_blank"><span class="icon">🔗</span>DEX</a>        
+        </div>
+      </div>
+
+
+      <div class="category" id="events-category">
+        <button onclick="toggleSubmenu('events-submenu','events-category')">
+          <span>🎉 Events & Promotions</span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="submenu" id="events-submenu">
+          <a href="events.html#airdrop" target="_blank"><span class="icon">🎁</span>Airdrop</a>
+          <a href="events.html#events" target="_blank"><span class="icon">📅</span>Events</a>
+          <a href="events.html#waitlist" target="_blank"><span class="icon">📬</span>Waitlist</a>
+        </div>
+      </div>
+
+      <div class="category" id="partners-category">
+        <button onclick="toggleSubmenu('partners-submenu','partners-category')">
+          <span>🤝 Partners & Recognition</span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="submenu" id="partners-submenu">
+          <a href="partners.html#partners" target="_blank"><span class="icon">🤝</span>Partners</a>
+          <a href="partners.html#stats" target="_blank"><span class="icon">📈</span>Stats</a>
+        </div>
+      </div>
+
+    </nav>
+
+<main>
+<h1>Soteria Ecosystem</h1>
+<li><a href="https://explorer.soteria-network.site/" target="_blank">Explorer</a></li>
+<h2 id="core">⚙️ Core Infrastructure</h2>
+<div class="ecosystem-grid">
+<a href="core.html#wiki" target="_blank" class="ecosystem-card" id="mining"><h3>📘 Mining Wiki</h3><p>A wiki guide on how to start mining Soter.</p></a>
+<a href="core.html#pools" target="_blank" class="ecosystem-card" id="pools"><h3>🏊 Pools</h3><p>List of mining pools.</p></a>
+<a href="core.html#wallets" target="_blank" class="ecosystem-card" id="wallets"><h3>👛 Wallets</h3><p>Soteria wallets for different OS.</p></a>
+<a href="core.html#miner" target="_blank" class="ecosystem-card" id="miner"><h3>⛏️ Miner</h3><p>Mining software for Linux and Windows.</p></a>
+<a href="https://explorer.soteria-network.site/" target="_blank" class="ecosystem-card" id="explorer"><h3>🔍 Explorer</h3><p>Soteria Blockchain Explorer.</p></a>
+<a href="https://explorer.soteria-network.site/" target="_blank" class="ecosystem-card" id="locked"><h3>🏦 Locked Fund</h3><p>Soter coins that cannot be withdrawn, traded, or transferred.</p></a>
+<a href="https://explorer.soteria-network.site/" target="_blank" class="ecosystem-card" id="burned"><h3>🔥 Burned Fund</h3><p>"Soter coins that have already been burned.</p></a>
+</div>
+
+<h2 id="finance">💰 Finance & Utility</h2>
+<div class="ecosystem-grid">
+<a href="finance.html#exchanges" target="_blank" class="ecosystem-card" id="exchanges"><h3>💱 Exchanges</h3><p>Where your coin/token is listed and traded.</p></a>
+<a href="finance.html#swap" target="_blank" class="ecosystem-card" id="swap"><h3>🔄 Swap</h3><p>On-site or third-party swapping tools.</p></a>
+<a href="finance.html#presale" target="_blank" class="ecosystem-card" id="presale"><h3>🪙 Presale</h3><p>Token/Coin sale details and access.</p></a>
+<a href="finance.html#data" target="_blank" class="ecosystem-card" id="data"><h3>📊 Market Data</h3><p>Market data like market cap, volume, etc.</p></a>
+<a href="finance.html#stake" target="_blank" class="ecosystem-card" id="stake"><h3> 🔒 Fixed Staking</h3><p>Info on staking options and rewards.</p></a>
+<a href="finance.html#premium" target="_blank" class="ecosystem-card" id="premium"><h3>💎 Premium Mining</h3><p>Premium mining tier or rewards.</p></a>
+<a href="finance.html#bridge" target="_blank" class="ecosystem-card" id="bridge"><h3>🌉 Bridge</h3><p>Cross-chain bridge functionality.</p></a>
+<a href="finance.html#lend" target="_blank" class="ecosystem-card" id="lend"><h3>💳 Crypto Lending</h3><p>Crypto lending, borrowing, and yield farming.</p></a>
+<a href="finance.html#whitelist" target="_blank" class="ecosystem-card" id="whitelist"><h3>✅ Whitelist</h3><p>Whitelisted mining addresses for PM.</p></a>
+<a href="finance.html#otc" target="_blank" class="ecosystem-card" id="otc"><h3>🏷️ OTC Market</h3><p>OTC Market to buy and sell before the official listing.</p></a>
+<a href="finance.html#cloud" target="_blank" class="ecosystem-card" id="otc"><h3>☁️ Cloud Mining</h3><p>Rewards without using hardware.</p></a>
+<a href="finance.html#flexible" target="_blank" class="ecosystem-card" id="flexible"><h3>🔓 Flexible Staking</h3><p>Flexible staking rewards.</p></a>
+<a href="finance.html#dual" target="_blank" class="ecosystem-card" id="dual"><h3>🔀 Dual Earn</h3><p>Buy or sell crypto at a price on a future date.</p></a>
+<a href="finance.html#shark" target="_blank" class="ecosystem-card" id="shark"><h3>🦈 Shark Fin</h3><p>Higher returns if the asset stays within or near a target range.</p></a>
+<a href="finance.html#auto" target="_blank" class="ecosystem-card" id="auto"><h3>🔁 Autocallable</h3><p>Product offers high periodic coupons.</p></a>
+<a href="finance.html#collar" target="_blank" class="ecosystem-card" id="collar"><h3>🛡️ Collar</h3><p>Product offers options-based strategy.</p></a>
+</div>
+
+<h2 id="community">🌐 Community & Programs</h2>
+<div class="ecosystem-grid">
+<a href="programs.html#membership" target="_blank" class="ecosystem-card" id="membership"><h3>👥 Membership</h3><p>Tiers, benefits, and how to join.</p></a>
+<a href="programs.html#ambassador" target="_blank" class="ecosystem-card" id="ambassador"><h3>🌟 Ambassador Program</h3><p>Program for outreach and community growth.</p></a>
+<a href="programs.html#jobs" target="_blank" class="ecosystem-card" id="jobs"><h3>💼 Jobs</h3><p>Open roles and contributor opportunities.</p></a>
+<a href="programs.html#grants" target="_blank" class="ecosystem-card" id="grants"><h3>🎓 Grants</h3><p>Funding opportunities for builders.</p></a>
+<a href="programs.html#donation" target="_blank" class="ecosystem-card" id="donation"><h3>💖 Donation</h3><p>Support the projects and ecosystem.</p></a>
+</div>
+
+<h2 id="development">🧠 Governance & Development</h2>
+<div class="ecosystem-grid">
+<a href="development.html#governance" target="_blank" class="ecosystem-card" id="governance"><h3>🗳️ Governance</h3><p>Voting, proposals, and DAO structure.</p></a>
+<a href="development.html#developer" target="_blank" class="ecosystem-card" id="developer"><h3>🧑‍💻 Developer</h3><p>SDKs, APIs, and dev tools.</p></a>
+<a href="development.html#testnet" target="_blank" class="ecosystem-card" id="testnet"><h3>🧪 Testnet</h3><p>Access to testnet tools and documentation.</p></a>
+<a href="development.html#products" target="_blank" class="ecosystem-card" id="products"><h3>🛠️ Products</h3><p>Core apps and services.</p></a>
+<a href="development.html#experiments" class="ecosystem-card" id="experiments"><h3>🧬 Experiments</h3><p>R&D and experimental features.</p></a>
+<a href="development.html#os" target="_blank" class="ecosystem-card" id="os"><h3>💻 OS</h3><p>Node software and operating system tools.</p></a>
+<a href="development.html#docs" target="_blank" class="ecosystem-card" id="docs"><h3>📚 Docs</h3><p>Technical and user documentation.</p></a>
+</div>
+
+<h2 id="innovation">🚀 Products & Innovation</h2>
+<div class="ecosystem-grid">
+<a href="innovation.html#spark" target="_blank" class="ecosystem-card" id="spark"><h3>⚡ Spark</h3><p>Social media reward system.</p></a>
+<a href="innovation.html#points" target="_blank" class="ecosystem-card" id="points"><h3>🎯 Points</h3><p>Reward points that can convert to coins.</p></a>
+<a href="innovation.html#lottery" target="_blank" class="ecosystem-card" id="lottery"><h3>🎟️ Crypto Lottery</h3><p>Decentralized blockchain-based lottery game.</p></a>
+<a href="innovation.html#sief" target="_blank" class="ecosystem-card" id="lottery"><h3>⚙️ SIEF</h3><p>Soteria Integrated Environment Framework.</p></a>
+<a href="innovation.html#dapps" target="_blank" class="ecosystem-card" id="dapps"><h3>🧩 dApps</h3><p>Decentralized apps.</p></a>
+<a href="innovation.html#cex" target="_blank" class="ecosystem-card" id="cex"><h3>💱 CEX</h3><p>Centralized Exchange.</p></a>
+<a href="innovation.html#dex" target="_blank" class="ecosystem-card" id="dex"><h3>🔗 DEX</h3><p>Decentralized Exchange.</p></a>
+</div>
+
+<h2 id="events">🎉 Events & Promotions</h2>
+<div class="ecosystem-grid">
+  <a href="events.html#airdrop" target="_blank" class="ecosystem-card" id="airdrop"><h3>🎁 Airdrop</h3><p>Claim or check eligibility.</p></a>
+  <a href="events.html#events" target="_blank" class="ecosystem-card" id="events"><h3>📅 Events</h3><p>Conferences, AMAs, and launches.</p></a>
+  <a href="events.html#waitlist" target="_blank" class="ecosystem-card" id="donation"><h3>📬 Waitlist</h3><p>Signup for upcoming features or launches.</p></a>
+</div>
+
+<h2 id="partners">🤝 Partners & Recognition</h2>
+<div class="ecosystem-grid">
+  <a href="partners.html#partners" target="_blank" class="ecosystem-card" id="partner"><h3>🤝 Partners</h3><p>Strategic collaborations and alliances.</p></a>
+  <a href="partners.html#stats" target="_blank" class="ecosystem-card" id="stats"><h3>📈 Stats</h3><p>Ecosystem metrics and analytics.</p></a>
+         </div>
+    </main>
+</div>
+
+    <section id="social-links" class="social-links">
+        <h2>Connect with Us</h2>
+        <p>Join our community and stay updated:</p>
+        <div class="social-icons">
+            <a href="https://discord.gg/Uv4bBnGc2C" target="_blank" class="social-icon">
+                <i class="fab fa-discord fa-2x"></i>
+            </a>
+            <a href="https://x.com/Soteria_Network" target="_blank" class="social-icon">
+                <i class="fab fa-twitter fa-2x"></i>
+            </a>
+             <a href="https://www.facebook.com/SoteriaNetworkOfficial/" target="_blank" class="social-icon">
+                <i class="fab fa-facebook fa-2x"></i>
+            </a>
+            <a href="https://instagram.com" target="_blank" class="social-icon">
+                <i class="fab fa-instagram fa-2x"></i>
+            </a>
+              <a href="https://www.tiktok.com/@soteriafoundation" target="_blank" class="social-icon">
+                <i class="fab fa-tiktok fa-2x"></i>
+            </a>
+              <a href="https://www.reddit.com/user/SoteriaNetwork/" target="_blank" class="social-icon">
+                <i class="fab fa-reddit fa-2x"></i>
+            </a>
+            <a href="https://github.com/Soteria-Network" target="_blank" class="social-icon">
+                <i class="fab fa-github fa-2x"></i>
+            </a>
+            <a href="https://linkedin.com" target="_blank" class="social-icon">
+                <i class="fab fa-linkedin fa-2x"></i>
+            </a>
+            <a href="https://www.youtube.com" target="_blank" class="social-icon">
+            <i class="fab fa-youtube fa-2x"></i>
+            </a>
+            <a href="https://t.me/soteria_official" target="_blank" class="social-icon">
+                <i class="fab fa-telegram fa-2x"></i>
+            </a>
+             <a href="https://medium.com/@soteriaofficial" target="_blank" class="social-icon">
+            <img src="images/medium.png" alt="medium Icon" style="width:60px;height:60px;">
+            </a>
+            <a href="https://www.coinmarketcap.com" target="_blank" class="social-icon">
+                <img src="images/images.png" alt="coinmarketcap Icon" style="width:60px;height:60px;">
+            </a>
+            <a href="https://bsky.app/profile/soteriaofficial.bsky.social" target="_blank" class="social-icon">
+            <img src="images/bsky.png" alt="bluesky Icon" style="width:60px;height:60px;">
+            </a>
+            <a href="https://www.livecoinwatch.com" target="_blank" class="social-icon">
+                <img src="images/live-coin-watch.png" alt="livecoinwatch Icon" style="width:60px;height:60px;">
+            </a>            
+            <a href="https://www.coingecko.com" target="_blank" class="social-icon">
+             <img src="images/coingecko.svg" alt="coingecko Icon" style="width:60px;height:60px;">
+            </a>
+        </div>
+    </section>
+
+
+    <p class="rights">Disclaimer: Always do your own research. Nothing here is a financial advice.</p>
+    <p class="rights">© 2025 Soteria Network - All rights reserved.</p>
+
+<script>
+  const sidebar = document.getElementById('sidebar');
+  function toggleSidebar() {
+  sidebar.classList.toggle('open');
+}
+
+  const sidebarLinks = document.querySelectorAll('.sidebar .submenu a');
+
+const toggleButton = document.getElementById('themeToggle');
+
+// Load saved theme
+if (localStorage.getItem('theme') === 'dark') {
+  document.body.classList.add('dark');
+  toggleButton.textContent = '🌞';
+} else {
+  toggleButton.textContent = '🌙';
+}
+
+// Toggle theme on click
+toggleButton.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  const isDark = document.body.classList.contains('dark');
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  toggleButton.textContent = isDark ? '🌞' : '🌙';
+});
+
+
+  if (sidebar && window.innerWidth <= 768) {
+    sidebar.classList.remove('open');
+  }
+
+  sidebarLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        sidebar.classList.remove('open');
+      }
+    });
+  });
+
+  // Scrollspy logic
+  const sections = document.querySelectorAll('h2[id], .ecosystem-card[id]');
+  const navLinks = document.querySelectorAll('.sidebar .submenu a');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      const id = entry.target.getAttribute('id');
+      const link = Array.from(navLinks).find(l => l.getAttribute('href') === `#${id}`);
+      if (entry.isIntersecting && link) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+      }
+    });
+  }, {
+    rootMargin: '-40% 0px -50% 0px',
+    threshold: 0
+  });
+
+  sections.forEach(section => observer.observe(section));
+
+  // Submenu toggle with arrow animation and localStorage
+  function toggleSubmenu(submenuId, categoryId) {
+    const submenu = document.getElementById(submenuId);
+    const category = document.getElementById(categoryId);
+    const isOpen = submenu.classList.toggle('open');
+    category.classList.toggle('open', isOpen);
+
+    // Save state
+    const state = JSON.parse(localStorage.getItem('submenuState') || '{}');
+    state[submenuId] = isOpen;
+    localStorage.setItem('submenuState', JSON.stringify(state));
+  }
+
+  // Load submenu state from localStorage
+  window.addEventListener('DOMContentLoaded', () => {
+    const state = JSON.parse(localStorage.getItem('submenuState') || '{}');
+    Object.keys(state).forEach(submenuId => {
+      const submenu = document.getElementById(submenuId);
+      const categoryId = submenuId.replace('-submenu', '-category');
+      const category = document.getElementById(categoryId);
+      if (submenu && state[submenuId]) {
+        submenu.classList.add('open');
+        category.classList.add('open');
+      }
+    });
+  });
+</script>
+
+<script>
+//GOOGLE TRANSLATE
+    window.gtranslateSettings = {
+      "default_language": "en",
+      "languages": ["en", "fr", "de", "it", "es", "nl", "pt", "uk", "zh-CN", "tr", "ar", "ko", "zh-TW", "ja",
+        "ru", "hi", "pl", "cs", "hu", "id", "bg", "th", "ro", "hy", "az", "vi", "sk", "no", "sv", "is", "ga", "bs", "sq", "bn", "be", "sw", "zu", "xh", "am", "ha", "ps", "fa", "uz", "ur", "pa", "sd", "af", "my", "hr", "da", "nl", "fi", "et", "ka", "el", "kk", "mk", "ky", "ku", "lv", "lt", "lb", "mt", "mn", "ne", "sm", "sr", "sl", "tg", "ta", "uz", "tl", "so", "ms", "iw", "yi"
+      ],
+      "wrapper_selector": ".gtranslate_wrapper",
+      "flag_size": 24,
+      "switcher_horizontal_position": "inline",
+      "flag_style": "3d",
+      "alt_flags": {
+        "en": "usa"
+      },
+      "switcher_text_color": "#f7f7f7",
+      "switcher_arrow_color": "#f2f2f2",
+      "switcher_border_color": "#161616",
+      "switcher_background_color": "#303030",
+      "switcher_background_shadow_color": "#474747",
+      "switcher_background_hover_color": "#3a3a3a",
+      "dropdown_text_color": "#eaeaea",
+      "dropdown_hover_color": "#748393",
+      "dropdown_background_color": "#474747"
+    }
+</script>
+
+<script src="https://cdn.gtranslate.net/widgets/latest/dwf.js" defer></script>   
+ 
+</body>
+</html>

@@ -149,15 +149,15 @@ header .logo a {
 /* Hero Section */
 .hero {
     text-align: center;
-    padding: 100px 20px;
+    padding: 50px 10px;
     background: linear-gradient(120deg, #ff9900, #181818);
     color: #ffffff;
     animation: fadeIn 1.5s ease-in-out;
 }
 
 .hero h1 {
-    font-size: 2.8em;
-    margin-bottom: 20px;
+    font-size: 2.4em;
+    margin-bottom: 15px;
     animation: slideInDown 1s ease-in-out;
 }
 
@@ -203,7 +203,7 @@ header .logo a {
     color: #121212;
 }
 
-/* FeaturesX Section */
+/* Features Section */
 .featuresX {
     text-align: center;
     padding: 50px 20px;

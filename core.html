@@ -125,20 +125,23 @@
 .download-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.8rem;            /* consistent space between buttons */
   margin-top: 0.5rem;
 }
 
 .download-btn {
-  flex: 1;                /* equal width for all buttons */
-  min-width: 140px;       /* prevents them from shrinking too small */
-  text-align: center;
+  display: inline-block;
   padding: 0.6rem 1.2rem;
   background: var(--accent);
   color: #fff;
   text-decoration: none;
   border-radius: 5px;
+  min-width: 160px;       /* keeps buttons uniform without stretching too wide */
+  text-align: center;
+  margin: 0.2rem 0;       /* vertical breathing room */
+  flex: 0 0 auto;         /* prevents flexbox from stretching them */
 }
+
 
     @media (max-width: 768px) {
       .layout { flex-direction: column; }

@@ -122,23 +122,24 @@
     }
 
 
-    .download-btn {
-      display: inline-block;
-      padding: 0.6rem 1.2rem;
-      background: var(--accent);
-      color: #fff;
-      text-decoration: none;
-      border-radius: 5px;
-      min-width: 140px;
-      text-align: center;
-      margin: 0.3rem;
-    }
-    .download-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 0.5rem;
-    }
+.download-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.download-btn {
+  flex: 1;                /* equal width for all buttons */
+  min-width: 140px;       /* prevents them from shrinking too small */
+  text-align: center;
+  padding: 0.6rem 1.2rem;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
     @media (max-width: 768px) {
       .layout { flex-direction: column; }
       .sidebar {

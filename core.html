@@ -125,7 +125,8 @@
 .download-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.8rem;            /* consistent space between buttons */
+  justify-content: flex-start; /* keeps them aligned neatly */
+  gap: 0.8rem;                 /* consistent spacing between buttons */
   margin-top: 0.5rem;
 }
 
@@ -136,11 +137,10 @@
   color: #fff;
   text-decoration: none;
   border-radius: 5px;
-  min-width: 160px;       /* keeps buttons uniform without stretching too wide */
+  min-width: 160px;            /* ensures a consistent minimum size */
   text-align: center;
-  margin: 0.2rem 0;       /* vertical breathing room */
-  flex: 0 0 auto;         /* prevents flexbox from stretching them */
 }
+
 
 
     @media (max-width: 768px) {

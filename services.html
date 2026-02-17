@@ -1,112 +1,293 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Services</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #f0f0f0;
+    }
+    header {
+      background: #1e1e1e;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header .logo a {
+      color: #00bcd4;
+      font-size: 1.4em;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 15px;
+      margin: 0;
+      padding: 0;
+    }
+    nav ul li a {
+      color: #f0f0f0;
+      text-decoration: none;
+      padding: 6px 10px;
+    }
+    nav ul li a.active {
+      background: #00bcd4;
+      border-radius: 4px;
+      color: #121212;
+    }
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+      background: linear-gradient(135deg, #1e1e1e, #2c2c2c);
+    }
+    .hero h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      color: #00bcd4;
+    }
+    .hero h2 {
 
+      margin-bottom: 15px;
+     color: #00bcd4;
+    }
+    .hero h3 {
+
+      margin-bottom: 10px;
+     color: #00bcd4;
+    }
+    .hero p {
+      max-width: 600px;
+      margin: 10px auto;
+      line-height: 1.6;
+    }
+    .btn-secondary {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #00bcd4;
+      color: #121212;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+    /* Services Section */
+    .services {
+      padding: 60px 20px;
+      background: #181818;
+    }
+    .services h2 {
+      text-align: center;
+      font-size: 2em;
+      margin-bottom: 40px;
+      color: #00bcd4;
+    }
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .service-card {
+      background: #242424;
+      padding: 20px;
+      border-radius: 8px;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+    .service-card:hover {
+      transform: translateY(-5px);
+      background: #2c2c2c;
+    }
+    .service-card h3 {
+      margin-top: 0;
+      color: #00bcd4;
+      font-size: 1.2em;
+    }
+    .service-card p {
+      font-size: 0.95em;
+      line-height: 1.5;
+    }
+    /* Social Links */
+    .social-links {
+      text-align: center;
+      padding: 40px 20px;
+      background: #1e1e1e;
+    }
+    .social-icons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .social-icon {
+      color: #f0f0f0;
+      transition: color 0.2s ease;
+    }
+    .social-icon:hover {
+      color: #00bcd4;
+    }
+    .rights {
+      text-align: center;
+      font-size: 0.85em;
+      color: #aaa;
+      margin: 10px 0;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <a href="index.html">Soteria Network</a>
+  <header>
+    <div class="logo">
+      <a href="index.html">Soteria Network</a>
+    </div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="tokenomics.html">Tokenomics</a></li>
+        <li><a href="roadmap.html">Roadmap</a></li>
+        <li><a href="ecosystem.html">Ecosystem</a></li>
+        <li><a href="services.html" class="active">Services</a></li>
+        <li><a href="whitepaper.html">Whitepaper</a></li>
+        <li><a href="r&d.html">R&D</a></li>
+        <li><a href="crowdfunding.html">Crowdfunding</a></li>
+        <li><a href="https://explorer.soteria-network.online/" target="_blank">Explorer</a></li>
+        <div class="gtranslate-wrapper">
+        <div class="gtranslate_wrapper"></div>
         </div>
-        <nav>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="tokenomics.html">Tokenomics</a></li>
-                <li><a href="roadmap.html">Roadmap</a></li>
-                <li><a href="ecosystem.html">Ecosystem</a></li>
-                <li><a href="services.html" class="active">Services</a></li>
-                <li><a href="whitepaper.html">Whitepaper</a></li>
-                <li><a href="r&d.html">R&D</a></li>
-                <li><a href="crowdfunding.html">Crowdfunding</a></li>
-                <li><a href="https://explorer.soteria-network.online/" target="_blank">Explorer</a></li>
-                <div class="gtranslate-wrapper">
-                <div class="gtranslate_wrapper"></div>
-              </div> 
-            </ul>
-        </nav>
-    </header>
-    <section class="hero">
-        <h1>Soteria Services</h1>
-        
-        <h2>Coming Soon</h2>
-        <p>We will start to offer services soon, check the whitepaper for more detail.</p>
-        <p> We will increase accessibility, usability, and scalability based on the actual use case.</p> 
-        
-        <div class="buttons">
-            <a href="about.html" class="btn-secondary">Learn More</a>
-        </div>
-    </section>
-    <section id="social-links" class="social-links">
-        <h2>Connect with Us</h2>
-        <p>Join our community and stay updated:</p>
-        <div class="social-icons">
-            <a href="https://discord.gg/Uv4bBnGc2C" target="_blank" class="social-icon">
-                <i class="fab fa-discord fa-2x"></i>
-            </a>
-            <a href="https://x.com/Soteria_Network" target="_blank" class="social-icon">
-                <i class="fab fa-twitter fa-2x"></i>
-            </a>
-             <a href="https://www.facebook.com/SoteriaNetworkOfficial/" target="_blank" class="social-icon">
-                <i class="fab fa-facebook fa-2x"></i>
-            </a>
-            <a href="https://instagram.com" target="_blank" class="social-icon">
-                <i class="fab fa-instagram fa-2x"></i>
-            </a>
-              <a href="https://www.tiktok.com/@soteriafoundation" target="_blank" class="social-icon">
-                <i class="fab fa-tiktok fa-2x"></i>
-            </a>
-              <a href="https://www.reddit.com/user/SoteriaNetwork/" target="_blank" class="social-icon">
-                <i class="fab fa-reddit fa-2x"></i>
-            </a>
-            <a href="https://github.com/Soteria-Network" target="_blank" class="social-icon">
-                <i class="fab fa-github fa-2x"></i>
-            </a>
+      </ul>
+    </nav>
+  </header>
 
-            <a href="https://www.youtube.com" target="_blank" class="social-icon">
-            <i class="fab fa-youtube fa-2x"></i>
-            </a>
-            <a href="https://t.me/soteria_official" target="_blank" class="social-icon">
-                <i class="fab fa-telegram fa-2x"></i>
-            </a>
-             <a href="https://medium.com/@soteriaofficial" target="_blank" class="social-icon">
-            <img src="images/medium.png" alt="medium Icon" style="width:60px;height:60px;">
-            </a>
-            <a href="https://www.coinmarketcap.com" target="_blank" class="social-icon">
-                <img src="images/images.png" alt="coinmarketcap Icon" style="width:60px;height:60px;">
-            </a>
-            <a href="https://bsky.app/profile/soteriaofficial.bsky.social" target="_blank" class="social-icon">
-            <img src="images/bsky.png" alt="bluesky Icon" style="width:60px;height:60px;">
-            </a>
-            <a href="https://www.livecoinwatch.com" target="_blank" class="social-icon">
-                <img src="images/live-coin-watch.png" alt="livecoinwatch Icon" style="width:60px;height:60px;">
-            </a>            
-            <a href="https://www.coingecko.com" target="_blank" class="social-icon">
-             <img src="images/coingecko.svg" alt="coingecko Icon" style="width:60px;height:60px;">
-            </a>
-        </div>
-    </section>
-    <p class="rights">Disclaimer: Always do your own research. Nothing here is a financial advice.</p>
-    <p class="rights">© 2025 Soteria Network - All rights reserved.</p>
-<script>
-//GOOGLE TRANSLATE
+  <section class="hero">
+<h2>Trusted solutions for blockchain development, deployment, and support.</h2>
+<h3>We will increase accessibility, usability, and scalability based on the actual use case.</h3>
+  </section>
+
+  <!-- Services Section -->
+  <section class="services">
+    <h2>Our Services</h2>
+    <div class="service-grid">
+      <div class="service-card">
+        <h3>Blockchain Explorer Deployment</h3>
+        <p>Deploy a custom blockchain explorer tailored to your project or business, providing transparent and real‑time network insights.</p>
+      </div>
+      <div class="service-card">
+        <h3>Wallet Development</h3>
+        <p>Develop and release multi‑platform wallets for Windows, macOS, Linux, Android, and iOS, ensuring secure and user‑friendly access to your blockchain.</p>
+      </div>
+      <div class="service-card">
+        <h3>Custom Blockchain Design</h3>
+        <p>Design and launch blockchains optimized for ASIC, GPU, or CPU mining — using established or custom algorithms. Support for POW, POS, or hybrid, with or without masternodes.</p>
+      </div>
+      <div class="service-card">
+        <h3>Mining Software Development</h3>
+        <p>Develop mining software for your blockchain, fully compatible with Linux, Windows, and Hive OS, enabling efficient and scalable participation in your network.</p>
+      </div>
+      <div class="service-card">
+        <h3>Multichain Blockchain Solutions</h3>
+        <p>Develop and launch multichain blockchain solutions with support for ecosystems such as Ethereum, BNB Chain, Solana, Sui, and more.</p>
+      </div>
+      <div class="service-card">
+        <h3>Mining Pool Deployment</h3>
+        <p>Design and deploy single‑coin or multi‑coin mining pools tailored to your project or business requirements.</p>
+      </div>
+      <div class="service-card">
+        <h3>Node Hosting</h3>
+        <p>Host nodes across multiple geographic locations to improve accessibility, strengthen network resilience, and enhance decentralization for your blockchain.</p>
+      </div>
+      <div class="service-card">
+        <h3>Explorer Redundancy</h3>
+        <p>Operate multiple blockchain explorers (2–3 instances) as a failsafe, ensuring uninterrupted visibility even if the primary explorer becomes unavailable.</p>
+      </div>
+      <div class="service-card">
+        <h3>Roadmap & Whitepaper Support</h3>
+        <p>Provide roadmap and whitepaper support, helping you define, structure, and communicate your project’s vision with clarity and professionalism.</p>
+      </div>
+      <div class="service-card">
+        <h3>Ongoing Technical Support</h3>
+        <p>Deliver ongoing technical support for your project after launch, ensuring smooth operations and long‑term sustainability.</p>
+      </div>
+      <div class="service-card">
+        <h3>Custom Solutions</h3>
+        <p>Offer custom solutions beyond our listed services — connect with us on social media to discuss your unique requirements or proposals.</p>
+      </div>
+     <div class="service-card">
+        <h3>Listing & Liquidity Support </h3>
+        <p>Offer guidance and assistance with exchange listings of your project on cex and dex, including liquidity provision, selecting trustworthy and transparent exchanges.</p>
+      </div> 
+    </div>
+  </section>
+
+  <section id="social-links" class="social-links">
+    <h2>Connect with Us</h2>
+    <p>Join our community and stay updated:</p>
+    <div class="social-icons">
+      <a href="https://discord.gg/Uv4bBnGc2C" target="_blank" class="social-icon">
+        <i class="fab fa-discord fa-2x"></i>
+      </a>
+      <a href="https://x.com/Soteria_Network" target="_blank" class="social-icon">
+        <i class="fab fa-twitter fa-2x"></i>
+      </a>
+      <a href="https://www.facebook.com/SoteriaNetworkOfficial/" target="_blank" class="social-icon">
+        <i class="fab fa-facebook fa-2x"></i>
+      </a>
+      <a href="https://instagram.com" target="_blank" class="social-icon">
+        <i class="fab fa-instagram fa-2x"></i>
+      </a>
+      <a href="https://www.tiktok.com/@soteriafoundation" target="_blank" class="social-icon">
+        <i class="fab fa-tiktok fa-2x"></i>
+      </a>
+      <a href="https://www.reddit.com/user/SoteriaNetwork/" target="_blank" class="social-icon">
+        <i class="fab fa-reddit fa-2x"></i>
+      </a>
+      <a href="https://github.com/Soteria-Network" target="_blank" class="social-icon">
+        <i class="fab fa-github fa-2x"></i>
+      </a>
+      <a href="https://www.youtube.com" target="_blank" class="social-icon">
+        <i class="fab fa-youtube fa-2x"></i>
+      </a>
+      <a href="https://t.me/soteria_official" target="_blank" class="social-icon">
+        <i class="fab fa-telegram fa-2x"></i>
+      </a>
+      <a href="https://medium.com/@soteriaofficial" target="_blank" class="social-icon">
+        <img src="images/medium.png" alt="medium Icon" style="width:60px;height:60px;">
+      </a>
+      <a href="https://www.coinmarketcap.com" target="_blank" class="social-icon">
+        <img src="images/images.png" alt="coinmarketcap Icon" style="width:60px;height:60px;">
+      </a>
+      <a href="https://bsky.app/profile/soteriaofficial.bsky.social" target="_blank" class="social-icon">
+        <img src="images/bsky.png" alt="bluesky Icon" style="width:60px;height:60px;">
+      </a>
+      <a href="https://www.livecoinwatch.com" target="_blank" class="social-icon">
+        <img src="images/live-coin-watch.png" alt="livecoinwatch Icon" style="width:60px;height:60px;">
+      </a>
+      <a href="https://www.coingecko.com" target="_blank" class="social-icon">
+        <img src="images/coingecko.svg" alt="coingecko Icon" style="width:60px;height:60px;">
+      </a>
+    </div>
+  </section>
+
+  <p class="rights">Disclaimer: Always do your own research. Nothing here is financial advice.</p>
+  <p class="rights">© 2025 Soteria Network - All rights reserved.</p>
+
+  <script>
+    // GOOGLE TRANSLATE
     window.gtranslateSettings = {
       "default_language": "en",
-      "languages": ["en", "fr", "de", "it", "es", "nl", "pt", "uk", "zh-CN", "tr", "ar", "ko", "zh-TW", "ja",
-        "ru", "hi", "pl", "cs", "hu", "id", "bg", "th", "ro", "hy", "az", "vi", "sk", "no", "sv", "is", "ga", "bs", "sq", "bn", "be", "sw", "zu", "xh", "am", "ha", "ps", "fa", "uz", "ur", "pa", "sd", "af", "my", "hr", "da", "nl", "fi", "et", "ka", "el", "kk", "mk", "ky", "ku", "lv", "lt", "lb", "mt", "mn", "ne", "sm", "sr", "sl", "tg", "ta", "uz", "tl", "so", "ms", "iw", "yi"
-      ],
+      "languages": ["en","fr","de","it","es","nl","pt","uk","zh-CN","tr","ar","ko","zh-TW","ja","ru","hi","pl","cs","hu","id","bg","th","ro","hy","az","vi","sk","no","sv","is","ga","bs","sq","bn","be","sw","zu","xh","am","ha","ps","fa","uz","ur","pa","sd","af","my","hr","da","nl","fi","et","ka","el","kk","mk","ky","ku","lv","lt","lb","mt","mn","ne","sm","sr","sl","tg","ta","uz","tl","so","ms","iw","yi"],
       "wrapper_selector": ".gtranslate_wrapper",
       "flag_size": 24,
       "switcher_horizontal_position": "inline",
       "flag_style": "3d",
-      "alt_flags": {
-        "en": "usa"
-      },
+      "alt_flags": { "en": "usa" },
       "switcher_text_color": "#f7f7f7",
       "switcher_arrow_color": "#f2f2f2",
       "switcher_border_color": "#161616",
@@ -117,7 +298,7 @@
       "dropdown_hover_color": "#748393",
       "dropdown_background_color": "#474747"
     }
-</script>
-<script src="https://cdn.gtranslate.net/widgets/latest/dwf.js" defer></script>    
+  </script>
+  <script src="https://cdn.gtranslate.net/widgets/latest/dwf.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SOTER • Token Dashboard</title>
+  <style>
+    :root{
+      --bg0:#060613;
+      --bg1:#0b0b21;
+      --panel: rgba(255,255,255,.06);
+      --panel2: rgba(255,255,255,.085);
+      --line: rgba(255,255,255,.14);
+      --text:#EAF0FF;
+      --muted: rgba(234,240,255,.70);
+      --muted2: rgba(234,240,255,.55);
+
+      --pvio:#7C5CFF;
+      --pcy:#00D4FF;
+      --pred:#FF4D6D;
+      --pgrn:#24D366;
+      --pylw:#FFCC00;
+      --pslv:#B9C4FF;
+
+      --shadow: 0 26px 80px rgba(0,0,0,.62);
+      --r: 18px;
+      --r2: 22px;
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: var(--font);
+      color: var(--text);
+      background:
+        radial-gradient(1000px 420px at 50% -10%, rgba(124,92,255,.35), transparent 60%),
+        radial-gradient(760px 360px at 80% 10%, rgba(0,212,255,.22), transparent 60%),
+        radial-gradient(560px 420px at 18% 30%, rgba(255,77,109,.14), transparent 60%),
+        linear-gradient(180deg, var(--bg0) 0%, #07071a 45%, #040412 100%);
+      overflow-x:hidden;
+    }
+
+    /* grid + glow */
+    .grid{
+      position:fixed; inset:0; pointer-events:none; z-index:0;
+      background:
+        linear-gradient(to right, rgba(255,255,255,.055) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,.055) 1px, transparent 1px);
+      background-size: 56px 56px;
+      opacity:.12;
+      mask-image: radial-gradient(60% 50% at 50% 20%, #000 55%, transparent 76%);
+      filter: blur(.2px);
+    }
+    .glow{
+      position:fixed; inset:-25%;
+      pointer-events:none; z-index:0;
+      background:
+        radial-gradient(900px 520px at 50% 18%, rgba(124,92,255,.25), transparent 62%),
+        radial-gradient(720px 420px at 35% 30%, rgba(0,212,255,.16), transparent 60%),
+        radial-gradient(560px 380px at 65% 50%, rgba(255,77,109,.10), transparent 60%);
+      opacity:.95;
+    }
+
+    .wrap{
+      position:relative; z-index:1;
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 18px 14px 64px;
+    }
+
+    /* top nav */
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      padding: 10px 0 14px;
+    }
+    .nav-left{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      min-width: 260px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+    }
+    .logo{
+      width:40px; height:40px; border-radius:14px;
+      background: linear-gradient(135deg, rgba(124,92,255,1), rgba(0,212,255,.9));
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 18px 45px rgba(124,92,255,.18);
+      display:grid; place-items:center;
+      font-weight:950; letter-spacing:.5px;
+      color:#07101F;
+      position:relative;
+      overflow:hidden;
+    }
+    .logo::after{
+      content:"";
+      position:absolute; inset:-30%;
+      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,.35), transparent 45%);
+      transform: rotate(18deg);
+    }
+    .brand h1{
+      margin:0;
+      font-size:14px;
+      letter-spacing:.3px;
+      text-transform: uppercase;
+    }
+    .brand .sub{
+      margin-top:3px;
+      font-size:12.2px;
+      color: var(--muted);
+    }
+
+    .nav-center{
+      display:flex;
+      gap: 8px;
+      flex-wrap:wrap;
+      justify-content:center;
+      flex:1;
+    }
+    .pill{
+      text-decoration:none;
+      color: var(--muted);
+      font-size:12.5px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      user-select:none;
+      cursor:pointer;
+      transition: .18s ease;
+      white-space:nowrap;
+    }
+    .pill:hover{
+      transform: translateY(-1px);
+      color: var(--text);
+      border-color: rgba(255,255,255,.20);
+      background: rgba(255,255,255,.06);
+    }
+    .pill.primary{
+      border:0;
+      background: linear-gradient(135deg, rgba(124,92,255,1), rgba(0,212,255,.9));
+      color:#081022;
+      font-weight:900;
+      box-shadow: 0 18px 50px rgba(124,92,255,.22);
+    }
+
+    /* main panel */
+    .panel{
+      border-radius: var(--r2);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .panel::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(680px 220px at 20% 0%, rgba(124,92,255,.35), transparent 60%),
+        radial-gradient(520px 200px at 92% 10%, rgba(0,212,255,.24), transparent 60%);
+      opacity:.45;
+      pointer-events:none;
+    }
+    .panel-inner{
+      position:relative;
+      padding: 22px 18px 18px;
+    }
+
+    /* hero */
+    .hero-top{
+      text-align:center;
+      padding: 10px 6px 4px;
+    }
+    .kicker{
+      font-size:12px;
+      color: var(--muted2);
+      letter-spacing:.3px;
+      text-transform: uppercase;
+    }
+    .hero-title{
+      margin: 10px 0 0;
+      font-size: 44px;
+      line-height: .95;
+      letter-spacing: -1px;
+      font-weight: 950;
+      text-transform: uppercase;
+    }
+    .hero-title .all{
+      background: linear-gradient(90deg, rgba(255,255,255,1), rgba(255,255,255,.62));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+      text-shadow: 0 12px 40px rgba(0,0,0,.35);
+    }
+    .hero-desc{
+      margin: 14px auto 0;
+      max-width: 68ch;
+      color: var(--muted);
+      font-size: 13.5px;
+      line-height: 1.6;
+    }
+
+    /* contract box */
+    .contract-box{
+      margin: 18px auto 8px;
+      max-width: 720px;
+      background: rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 16px;
+      padding: 14px 14px 12px;
+    }
+    .contract-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+      margin-bottom: 10px;
+    }
+    .status{
+      display:flex; align-items:center; gap:10px;
+      color: var(--muted);
+      font-size: 12.5px;
+      user-select:none;
+    }
+    .status .orb{
+      width:10px; height:10px; border-radius:50%;
+      background: radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,.2) 35%, transparent 60%), var(--pcy);
+      box-shadow: 0 0 0 3px rgba(0,212,255,.12), 0 0 18px rgba(0,212,255,.34);
+    }
+    .net{
+      font-size:12.5px;
+      color: rgba(234,240,255,.7);
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+      padding: 7px 10px;
+      border-radius: 999px;
+      user-select:none;
+    }
+
+    .contract-row{
+      display:grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items:center;
+    }
+    .addr{
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: 14px;
+      padding: 12px 12px;
+      font-family: var(--mono);
+      font-size: 12.8px;
+      color: var(--text);
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+    .btn{
+      border:0;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-weight: 900;
+      cursor:pointer;
+      color:#081022;
+      background: linear-gradient(135deg, rgba(124,92,255,1), rgba(0,212,255,.9));
+      box-shadow: 0 18px 45px rgba(124,92,255,.22);
+      transition:.18s ease;
+      white-space:nowrap;
+    }
+    .btn:hover{ transform: translateY(-1px); filter:saturate(1.05); }
+
+    .hero-meta{
+      margin-top: 10px;
+      color: var(--muted2);
+      font-size: 12.6px;
+      line-height:1.5;
+      text-align:center;
+    }
+
+    /* badge grid */
+    .badge-panel{
+      margin-top: 14px;
+      padding: 0 6px 6px;
+    }
+    .badge-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:12px;
+      flex-wrap:wrap;
+      margin: 10px 4px 8px;
+    }
+    .badge-title{
+      font-weight: 950;
+      letter-spacing:.2px;
+      text-transform: uppercase;
+      font-size: 13px;
+      color: rgba(234,240,255,.85);
+    }
+    .badge-sub{
+      margin-top:6px;
+      color: var(--muted2);
+      font-size:12.6px;
+      max-width: 55ch;
+      line-height:1.45;
+    }
+    .legend{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .legend .tag{
+      display:flex; align-items:center; gap:8px;
+      background: rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.10);
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 12.2px;
+      user-select:none;
+    }
+    .swatch{ width:12px; height:12px; border-radius:50%; box-shadow: 0 0 0 3px rgba(255,255,255,.05), 0 0 16px rgba(255,255,255,.08); }
+
+    .grid-wrap{
+      background: rgba(255,255,255,.02);
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding: 16px 8px 6px;
+      border-radius: 18px;
+    }
+    .badge-grid{
+      display:grid;
+      grid-template-columns: repeat(10, minmax(48px, 1fr));
+      gap: 12px;
+      padding: 0 6px 14px;
+    }
+    @media (max-width: 980px){
+      .hero-title{ font-size: 36px; }
+      .badge-grid{ grid-template-columns: repeat(8, minmax(48px, 1fr)); }
+    }
+    @media (max-width: 620px){
+      .hero-title{ font-size: 30px; }
+      .badge-grid{ grid-template-columns: repeat(5, minmax(48px, 1fr)); }
+      .topbar{ flex-wrap:wrap; }
+      .nav-left{ min-width: auto; }
+    }
+
+    .badge{
+      aspect-ratio: 1/1;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.05), 0 16px 40px rgba(0,0,0,.28);
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      transition:.18s ease;
+      position:relative;
+      overflow:hidden;
+      user-select:none;
+      outline:none;
+    }
+    .badge::after{
+      content:"";
+      position:absolute; inset:-35%;
+      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,.25), transparent 44%);
+      opacity:.65;
+      transform: rotate(10deg);
+      pointer-events:none;
+    }
+    .badge:hover{ transform: translateY(-2px); border-color: rgba(255,255,255,.22); }
+    .badge.active{
+      box-shadow: 0 20px 65px rgba(0,0,0,.55), 0 0 0 2px rgba(0,212,255,.75);
+    }
+
+    .badge-inner{
+      width: 78%;
+      height: 78%;
+      border-radius: 999px;
+      display:grid;
+      place-items:center;
+      border: 1px solid rgba(255,255,255,.18);
+      background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(0,0,0,.10));
+      color: rgba(255,255,255,.95);
+      font-weight: 950;
+      font-size: 18px;
+      letter-spacing:.3px;
+      text-transform: uppercase;
+      position:relative;
+      z-index:1;
+    }
+
+    /* footer */
+    .footer{
+      margin-top: 14px;
+      padding: 14px 6px 0;
+      color: var(--muted2);
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .social{
+      display:flex; gap: 10px; flex-wrap:wrap; justify-content:flex-end;
+    }
+    .sbtn{
+      display:flex; align-items:center; gap:8px;
+      border-radius: 999px;
+      padding: 8px 10px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      text-decoration:none;
+      font-size: 12.5px;
+    }
+    .sbtn:hover{ color: var(--text); border-color: rgba(255,255,255,.20); }
+
+    /* toast */
+    .toast{
+      position:fixed;
+      left:50%; bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(10,14,26,.88);
+      border:1px solid rgba(255,255,255,.14);
+      padding: 12px 14px;
+      border-radius: 14px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.55);
+      opacity:0;
+      pointer-events:none;
+      transition:.18s ease;
+      z-index:9999;
+      color: var(--text);
+      font-size: 13px;
+      max-width: 92vw;
+    }
+    .toast.show{ opacity:1; bottom: 26px; }
+
+  </style>
+</head>
+<body>
+  <div class="grid"></div>
+  <div class="glow"></div>
+
+  <div class="wrap">
+    <div class="topbar">
+      <div class="nav-left">
+        <div class="brand">
+          <div class="logo">S</div>
+          <div>
+            <h1>Soter Tokens</h1>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-center">
+        <a class="pill" href="index.html">Home</a>
+<!--        <a class="pill" href="#portfolio">Portfolio</a> -->
+        <a class="pill" href="#farm">Farm</a>        
+        <a class="pill" href="#swap">Swap</a>
+        <a class="pill" href="#tokens">Tokens</a>       
+        <a class="pill" href="#chains">Chains</a>
+        <a class="pill" href="#updates">Updates</a>
+        <a class="pill primary" href="#connect" id="connectPill">Connect Wallet</a>
+      </div>
+    </div>
+
+    <div class="panel" id="home">
+      <div class="panel-inner">
+        <div class="hero-top">
+           <h3>COMING SOON</h3>       
+          <div class="kicker">MULTI-CHAIN ECOSYSTEM</div>
+          <div class="hero-title">ONE SMART CONTRACT<br/>ADDRESS TO<br/><span class="all">SHARE THEM ALL...</span></div>
+          <p class="hero-desc">
+            All of the $SOTER branded tokens follow a unified contract address system, where they all share the same smart contract address across all chains.
+          </p>
+        </div>
+
+        <div class="contract-box">
+          <div class="contract-top">
+            <div class="status"><span class="orb"></span><span id="statusText">SMART CONTRACT ADDRESS</span></div>
+  <!--          <div class="net" id="networkTag">SOTER • EVM</div> -->
+          </div>
+
+          <div class="contract-row">
+            <div class="addr" id="addrBox">0x0000000000000000000000000000000000000000</div>
+            <button class="btn" id="copyBtn" type="button">Copy</button>
+          </div>
+
+          <div class="hero-meta" id="hintText">
+            <b>Open any token below to view its links, explorer, wallet helper, and farm access where available. </b>
+          </div>
+        </div>
+
+        <div class="badge-panel">
+          <div class="badge-head">
+            <div>
+
+            </div>
+
+          </div>
+
+          <div class="grid-wrap">
+            <div class="badge-grid" id="badgeGrid"></div>
+          </div>
+        </div>
+
+        <div class="footer">
+          <div>© <span id="year"></span> SoterTokens.</div>
+          <div class="social">
+            <a class="sbtn" href="https://discord.gg/Uv4bBnGc2C"  target="_blank" onclick="return true;">Discord</a>
+            <a class="sbtn" href="https://x.com/Soteria_Network"  target="_blank" onclick="return true;">X</a>
+            <a class="sbtn" href="https://t.me/soteria_official"  target="_blank" onclick="return true;">Telegram</a>
+            <a class="sbtn" href="https://github.com/Soteria-Network"  target="_blank" onclick="return true;">GitHub</a>
+            <a class="sbtn" href="https://www.livecoinwatch.com/price/SOTERIA-_SOTER"  target="_blank" onclick="return true;">LCW</a>
+             <a class="sbtn" href="https://bsky.app/profile/soteriaofficial.bsky.social"  target="_blank" onclick="return true;">BSKY</a>           
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const toastEl = document.getElementById('toast');
+    function toast(msg){
+      toastEl.textContent = msg;
+      toastEl.classList.add('show');
+      clearTimeout(toastEl._t);
+      toastEl._t = setTimeout(()=>toastEl.classList.remove('show'), 2200);
+    }
+
+    // Replace these badge definitions with your real token icon colors + letters.
+    // If you use real icons, replace badge-inner text with <img ...>.
+    const badgeDefs = [
+      { id:'v1', theme:'violet', letter:'S' },
+      { id:'v2', theme:'amber',  letter:'S' },
+      { id:'v3', theme:'cyan',    letter:'S' },
+      { id:'v4', theme:'red',     letter:'S' },
+      { id:'v5', theme:'silver',  letter:'S' },
+      { id:'v6', theme:'violet',  letter:'S' },
+      { id:'v7', theme:'cyan',    letter:'S' },
+      { id:'v8', theme:'red',     letter:'S' },
+      { id:'v9', theme:'amber',  letter:'S' },
+      { id:'v10',theme:'silver', letter:'S' },
+
+      { id:'v11',theme:'violet',  letter:'S' },
+      { id:'v12',theme:'cyan',    letter:'S'  },
+      { id:'v13',theme:'amber',  letter:'S'  },
+      { id:'v14',theme:'green',   letter:'S'  },
+      { id:'v15',theme:'violet',  letter:'S'  },
+      { id:'v16',theme:'cyan',    letter:'S'  },
+      { id:'v17',theme:'red',    letter:'S'  },
+      { id:'v18',theme:'amber',  letter:'S'  },
+      { id:'v19',theme:'silver',  letter:'S'  },
+      { id:'v20',theme:'cyan',    letter:'S'  },
+
+      { id:'v21',theme:'green',   letter:'S'  },
+      { id:'v22',theme:'amber',  letter:'S'  },
+      { id:'v23',theme:'silver',  letter:'S'  },
+      { id:'v24',theme:'violet',  letter:'S'  },
+      { id:'v25',theme:'cyan',   letter:'S'  },
+      { id:'v26',theme:'violet',  letter:'S'  },
+      { id:'v27',theme:'amber',  letter:'S'  },
+      { id:'v28',theme:'red',     letter:'S'  },
+      { id:'v29',theme:'silver',  letter:'S'  },
+      { id:'v30',theme:'cyan',   letter:'S'  }
+    ];
+
+    const theme = {
+      violet: { a:'rgba(124,92,255,.95)', b:'rgba(124,92,255,.25)', border:'rgba(124,92,255,.55)' },
+      cyan:   { a:'rgba(0,212,255,.92)',  b:'rgba(0,212,255,.22)',  border:'rgba(0,212,255,.55)' },
+      red:    { a:'rgba(255,77,109,.92)', b:'rgba(255,77,109,.20)', border:'rgba(255,77,109,.55)' },
+      amber:  { a:'rgba(255,204,0,.95)',  b:'rgba(255,204,0,.20)', border:'rgba(255,204,0,.55)' },
+      silver: { a:'rgba(185,196,255,.92)', b:'rgba(185,196,255,.18)', border:'rgba(185,196,255,.48)' },
+      green:  { a:'rgba(36,211,102,.92)', b:'rgba(36,211,102,.18)', border:'rgba(36,211,102,.45)' }
+    };
+
+    const grid = document.getElementById('badgeGrid');
+
+    function renderBadges(){
+      grid.innerHTML = '';
+      badgeDefs.forEach((b, idx)=>{
+        const colors = theme[b.theme] || theme.violet;
+
+        const el = document.createElement('div');
+        el.className = 'badge';
+        el.tabIndex = 0;
+        el.setAttribute('role','button');
+        el.setAttribute('aria-label', `Token badge ${idx+1}`);
+
+        // Badge background glow
+        el.style.borderColor = colors.border;
+
+        const inner = document.createElement('div');
+        inner.className = 'badge-inner';
+
+        // Replace this letter with your real icon:
+        inner.textContent = b.letter;
+
+        // Push colors into the inner ring
+        inner.style.background = `linear-gradient(180deg, rgba(255,255,255,.14), rgba(0,0,0,.10)), radial-gradient(circle at 30% 20%, ${colors.b}, transparent 55%), ${colors.a}`;
+        inner.style.borderColor = colors.border;
+
+        el.appendChild(inner);
+
+        el.addEventListener('click', ()=>{
+          document.querySelectorAll('.badge').forEach(x=>x.classList.remove('active'));
+          el.classList.add('active');
+          toast(`Selected icon: ${b.theme.toUpperCase()} (swap icon here)`);
+        });
+
+        el.addEventListener('keydown', (e)=>{
+          if(e.key === 'Enter' || e.key === ' '){
+            e.preventDefault();
+            el.click();
+          }
+        });
+
+        grid.appendChild(el);
+      });
+    }
+
+    renderBadges();
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    document.getElementById('connectPill').addEventListener('click', ()=>{
+      toast(' will be replaced with connect logic.');
+    });
+
+    document.getElementById('copyBtn').addEventListener('click', async ()=>{
+      const value = document.getElementById('addrBox').textContent.trim();
+      try{
+        await navigator.clipboard.writeText(value);
+        document.getElementById('statusText').textContent = 'COPIED';
+        toast('Address copied');
+        setTimeout(()=>document.getElementById('statusText').textContent = 'WAITING FOR INPUT', 1200);
+      }catch{
+        toast('Copy failed (clipboard permissions).');
+      }
+    });
+  </script>
+    <!-- Google Translate -->
+  <script>
+    window.gtranslateSettings = {
+      "default_language": "en",
+      "languages": ["en", "fr", "de", "it", "es", "nl", "pt", "uk", "zh-CN", "tr", "ar", "ko", "zh-TW", "ja", "ru", "hi", "pl", "cs", "hu", "id", "bg", "th", "ro", "hy", "az", "vi", "sk", "no", "sv", "is", "ga", "bs", "sq", "bn", "be", "sw", "zu", "xh", "am", "ha", "ps", "fa", "uz", "ur", "pa", "sd", "af", "my", "hr", "da", "nl", "fi", "et", "ka", "el", "kk", "mk", "ky", "ku", "lv", "lt", "lb", "mt", "mn", "ne", "sm", "sr", "sl", "tg", "ta", "uz", "tl", "so", "ms", "iw", "yi"],
+      "wrapper_selector": ".gtranslate_wrapper",
+      "flag_size": 24,
+      "switcher_horizontal_position": "inline",
+      "flag_style": "3d",
+      "alt_flags": { "en": "usa" },
+      "switcher_text_color": "#f7f7f7",
+      "switcher_arrow_color": "#f2f2f2",
+      "switcher_border_color": "#161616",
+      "switcher_background_color": "#303030",
+      "switcher_background_shadow_color": "#474747",
+      "switcher_background_hover_color": "#3a3a3a",
+      "dropdown_text_color": "#eaeaea",
+      "dropdown_hover_color": "#748393",
+      "dropdown_background_color": "#474747"
+    }
+ </script>    
+<script src="https://cdn.gtranslate.net/widgets/latest/dwf.js" defer></script>   
+</body>
+</html>
